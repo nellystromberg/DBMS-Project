@@ -3,6 +3,7 @@ from PIL import Image
 from sys import platform
 import customtkinter
 import ctypes
+from tkinter import messagebox
 
 root = customtkinter.CTk()
 root.title("Library of Alexandria")
@@ -49,7 +50,7 @@ labelA_logo.place(x=0, y=0)
 def combobox_callback(choice):
 
     if choice =="My pages":
-        home()
+        my_pages()
     if choice == "Borrow a book":
         borrowing()
     if choice == "Return a book":
@@ -84,6 +85,7 @@ combobox = customtkinter.CTkComboBox(labelA,
 combobox_var.set("My pages")
 combobox.place(x=115, y=100)
 
+
 def home():
     labelB=customtkinter.CTkLabel(main_canvas, 
                              width=1600, 
@@ -94,26 +96,30 @@ def home():
     labelB.place(x=0, y=150)
     # Opening hours and events Label 
     label_open_time=customtkinter.CTkLabel(labelB, 
-                             width=350, 
+                             width=380, 
                              height=350, 
                              fg_color="white", 
                              text="",
-                             corner_radius=7
+                             corner_radius=7,
+                             
                              )
-    label_open_time.place(x=1065, y=300)
+    label_open_time.place(x=1100, y=300)
     # Opening hours and events Frame
     open_time_frame = customtkinter.CTkFrame(label_open_time, 
-                                         width=350, height=350, 
+                                         width=380,
+                                        height=350, 
                                          fg_color="white",
-                                         border_color="black",
-                                         border_width=3
+                                         bg_color="white",
+                                         border_color="white",
+                                         border_width=10
                                          )
     open_time_frame.place(x=0, y=0)
     # Opening hours and events Canvas 
     open_time_canvas= customtkinter.CTkCanvas(open_time_frame, 
                                           width=420, 
                                           height=420, 
-                                          bg="white"
+                                          bg="white",
+                                          
                                           )
     open_time_canvas.place(x=5,y=5)
     # Opening hours and events Scroll 
@@ -122,24 +128,56 @@ def home():
                                                command=open_time_canvas.yview, 
                                                height=235,
                                                corner_radius=7,
-                                               fg_color="white"
+                                               fg_color="white",
+                                               bg_color="white"
                                                )
-    open_time_scroll.place(x=325,y=5)
+    open_time_scroll.place(x=340,y=5)
     open_time_canvas.configure(yscrollcommand=open_time_scroll.set)
     open_time_canvas.bind('<Configure>', lambda e: open_time_canvas.configure(scrollregion=open_time_canvas.bbox("all")))
     # Opening hours and events second Frame
     second_open_time_frame = customtkinter.CTkFrame(open_time_canvas,
                                                 fg_color="white",
-                                                corner_radius=7
+                                                corner_radius=7,
+                                                bg_color="white",
+                                                border_color="white",
+                                                border_width=10
                                                 )
     open_time_canvas.create_window((0,0), 
                                window=second_open_time_frame, 
                                anchor="nw",
                                width=420,
-                               height=1000
+                               height=1000,
+                               
                                )
     #open_time_title=customtkinter.CTkLabel(labelB, text="Opening hours and events. \n For the library of alexandria.") 
     #open_time_title.place(x=1190, y=80)
+
+    def tuesday_button_function():
+        tuesday_button.destroy()
+    def create_tuesday_button():
+        global tuesday_button
+        tuesday_button = customtkinter.CTkButton(second_open_time_frame,
+                                                 text="The kid's Book Club \n Ages:8-13\n 16.00-17.30",
+                                                 font=("robot bold", 15),
+                                                 fg_color="#547B60",
+                                                 hover_color="#547B60",
+                                                 command=tuesday_button_function)
+        tuesday_button.grid(row=2, column=1, pady=5, padx=1, sticky="nsew")
+
+    def thursday_button_function():
+        thursday_button.destroy()
+    def create_thursday_button():
+        global thursday_button
+        thursday_button = customtkinter.CTkButton(second_open_time_frame,
+                                                 text="Book reading by Local authors \n For further information \n contact liza@alexandria.nl ",
+                                                 font=("robot bold", 15),
+                                                 fg_color="#547B60",
+                                                 hover_color="#547B60",
+                                                 command=thursday_button_function)
+        thursday_button.grid(row=5, column=1, pady=5, padx=1, sticky="nsew")
+
+
+
     for thing in range(12):
         if thing == 0:
             customtkinter.CTkButton(second_open_time_frame,
@@ -150,7 +188,7 @@ def home():
                                 width=300 ).grid(row=thing,
                                                             column=1, 
                                                             pady=5,
-                                                            padx=10,
+                                                            padx=1,
                                                             sticky="nsew"
                                                             )
         if thing == 1:
@@ -158,23 +196,14 @@ def home():
                                 text="Tuesday \n 10.00-20.00", 
                                 font=("robot bold", 15),
                                 fg_color="#547B60",
-                                hover_color="#547B60").grid(row=thing,
+                                hover_color="#547B60",
+                                command=create_tuesday_button).grid(row=thing,
                                                             column=1, 
                                                             pady=5,
-                                                            padx=10,
+                                                            padx=1,
                                                             sticky="nsew" 
                                                             )
-        if thing == 2:
-            customtkinter.CTkButton(second_open_time_frame,
-                                text="The kid's Book Club \n Ages:8-13\n 16.00-17.30", 
-                                font=("robot bold", 10),
-                                fg_color="#547B60",
-                                hover_color="#547B60").grid(row=thing,
-                                                            column=1, 
-                                                            pady=5,
-                                                            padx=10,
-                                                            sticky="nsew"
-                                                            )
+
         if thing == 3:
             customtkinter.CTkButton(second_open_time_frame,
                                 text="Wednesday \n 10.00-21.00", 
@@ -183,30 +212,21 @@ def home():
                                 hover_color="#547B60").grid(row=thing,
                                                             column=1, 
                                                             pady=5,
-                                                            padx=10,
+                                                            padx=1,
                                                             sticky="nsew"
                                                             )                                                                   
         if thing == 4:
             customtkinter.CTkButton(second_open_time_frame,text="Thursday \n 10.00-20.00", 
                                 font=("robot bold", 15),
                                 fg_color="#547B60",
-                                hover_color="#547B60").grid(row=thing,
+                                hover_color="#547B60",
+                                command=create_thursday_button).grid(row=thing,
                                                             column=1, 
                                                             pady=5,
-                                                            padx=10,
+                                                            padx=1,
                                                             sticky="nsew"
                                                             )    
-        if thing == 5:
-            customtkinter.CTkButton(second_open_time_frame,
-                                text="Book reading by Local authors \n For further information \n contact liza@alexandria.nl ", 
-                                font=("robot bold", 10),
-                                fg_color="#547B60",
-                                hover_color="#547B60").grid(row=thing,
-                                                            column=1, 
-                                                            pady=5,
-                                                            padx=10,
-                                                            sticky="nsew"
-                                                            ) 
+  
         if thing == 6:
             customtkinter.CTkButton(second_open_time_frame,
                                 text="Friday \n 10.00-21.00", 
@@ -215,7 +235,7 @@ def home():
                                 hover_color="#547B60").grid(row=thing,
                                                             column=1, 
                                                             pady=5,
-                                                            padx=10,
+                                                            padx=1,
                                                             sticky="nsew"
                                                             )
         if thing == 7:
@@ -226,7 +246,7 @@ def home():
                                 hover_color="#547B60").grid(row=thing,
                                                             column=1, 
                                                             pady=5,
-                                                            padx=10,
+                                                            padx=1,
                                                             sticky="nsew"
                                                             )
         if thing == 8:
@@ -237,9 +257,22 @@ def home():
                                 hover_color="#547B60").grid(row=thing,
                                                             column=1, 
                                                             pady=5,
-                                                            padx=10,
+                                                            padx=1,
                                                             sticky="nsew"
-                                                            )
+                                                            
+                                                        )
+        if thing == 9:
+            customtkinter.CTkButton(second_open_time_frame,
+                       text="New Button", 
+                       font=("robot bold", 15),
+                       fg_color="#547B60",
+                       hover_color="#547B60",
+                       command=create_thursday_button).grid(row=thing + 1,
+                                                       column=1, 
+                                                       pady=5,
+                                                       padx=1,
+                                                       sticky="nsew")
+
     #Home screen Images
     img1 = customtkinter.CTkImage(Image.open("./Login-System/1D.png"),
                                         size=(900, 550))
@@ -274,6 +307,7 @@ def home():
                              bg_color="white"
                              )
     info_radio.place(x=0,y=520)
+
     var=customtkinter.IntVar()
     def section():
         choice = var.get()
@@ -614,6 +648,138 @@ def customers():
                                            )
     enter_button.place(x=220,y=350)
 
+def my_pages():
+    def edit_page():
+
+        def new_customer_info():
+            home()
+            first_name = entry_G.get()
+            last_name = entry_G1.get()
+            user_name = entry_G2.get()
+            phone_number = entry_G3.get()
+            email_address = entry_G4.get()
+            adress = entry_G5.get()
+            house_number = entry_G6.get()
+            password = entry_G7.get()
+            print("First name", first_name)
+            print("Last name", last_name)
+            print("User name", user_name)
+            print("Phone number", phone_number)
+            print("Email", email_address)
+            print("Adress", adress)
+            print("House nr", house_number)
+            print("Password", password)
+        editor_page = customtkinter.CTkLabel(labelG2, 
+                                             width=400, 
+                                             height=500, 
+                                             fg_color="#B29696",
+                                             text=""
+                                             )
+        editor_page.place(x=490, y=94)
+        entry_G=customtkinter.CTkEntry(editor_page,
+                                      font=("Robot bold",20),
+                                      fg_color="white",
+                                      width=200,
+                                      placeholder_text="First Name"
+                                      )
+        entry_G.place(x=10, y=10)
+        entry_G1=customtkinter.CTkEntry(editor_page,
+                                      font=("Robot bold",20),
+                                      fg_color="white",
+                                      width=200,
+                                      placeholder_text="Last Name"
+                                      )
+        entry_G1.place(x=10, y=55)
+        entry_G2=customtkinter.CTkEntry(editor_page,
+                                      font=("Robot bold",20),
+                                      fg_color="white",
+                                      width=200,
+                                      placeholder_text="User Name"
+                                      )
+        entry_G2.place(x=10, y=100)
+        entry_G3=customtkinter.CTkEntry(editor_page,
+                                      font=("Robot bold",20),
+                                      fg_color="white",
+                                      width=200,
+                                      placeholder_text="Phone Number"
+
+                                      )
+        entry_G3.place(x=10, y=145)
+        entry_G4=customtkinter.CTkEntry(editor_page,
+                                      font=("Robot bold",20),
+                                      fg_color="white",
+                                      width=200,
+                                      placeholder_text="Email Adress"
+                                      )
+        entry_G4.place(x=10, y=190)
+        entry_G5=customtkinter.CTkEntry(editor_page,
+                                      font=("Robot bold",20),
+                                      fg_color="white",
+                                      width=200,
+                                      placeholder_text="Adress"
+                                      )
+        entry_G5.place(x=10, y=235)
+        entry_G6=customtkinter.CTkEntry(editor_page,
+                                      font=("Robot bold",20),
+                                      fg_color="white",
+                                      width=200,
+                                      placeholder_text="House Number"
+                                      )
+        entry_G6.place(x=10, y=280)
+        entry_G7=customtkinter.CTkEntry(editor_page,
+                                      font=("Robot bold",20),
+                                      fg_color="white",
+                                      width=200,
+                                      placeholder_text="Password"
+                                      )
+        entry_G7.place(x=10, y=325)
+        buttton_G=customtkinter.CTkButton(editor_page,
+                                      text="Save",
+                                      font=("Robot bold",15),
+                                      fg_color="green",
+                                      command=new_customer_info
+                                      )
+        buttton_G.place(x=10, y=375)
+    labelG=customtkinter.CTkLabel(main_canvas, 
+                                 width=1600, 
+                                 height=1000, 
+                                 fg_color="white", 
+                                 text=" "
+                                 )
+    labelG.place(x=0, y=150)
+    labelG2=customtkinter.CTkLabel(labelG, 
+                                 width=1300, 
+                                 height=1000, 
+                                 fg_color="#B29696", 
+                                 text=" "
+                                 )
+    labelG2.place(x=115, y=50)
+    profile_picture = customtkinter.CTkImage(Image.open("./Login-System/profile_pic.png"),
+                                             size=(300, 400))
+    labelGpic=customtkinter.CTkLabel(labelG2, 
+                                 width=300, 
+                                 height=400, 
+                                 fg_color="#B29696", 
+                                 text=" ",
+                                 image=profile_picture
+                                 )
+    labelGpic.place(x=150, y=100)
+    labelG3=customtkinter.CTkLabel(labelG2, 
+                                   text= "First Name:\n \nLast Name: \n \nUser Name:\n \nAdress: \n\nHouse Number: \n\nCity: \n\nPhone Number: \n\nEmail Adress:",
+                                   fg_color="#B29696",
+                                   font=("Robot bold",20),
+                                   justify="left"
+                                   )
+    labelG3.place(x=500, y=105)
+    buttton_G=customtkinter.CTkButton(labelG2,
+                                      text="Edit",
+                                      font=("Robot bold",15),
+                                      fg_color="green",
+                                      command=edit_page
+                                      )
+    buttton_G.place(x=500, y=470)
+    
+
 
 def create_login_system():
     root.withdraw()
@@ -626,14 +792,18 @@ def create_login_system():
             root.deiconify()
             root.after(0, lambda: root.wm_state('zoomed'))
             login_window.withdraw()
+            combobox.configure(values=["Home","Borrow a book", "Return a book","Extend a loan", "Customer info"])
             home()
+
+
         if username == "Tom" and password == "MonkeyProof":
             print("Login successful")
             root.deiconify()
             root.after(0, lambda: root.wm_state('zoomed'))
             login_window.withdraw()
-            combobox.configure(values=["My pages", "Borrow a book", "Return a book","Extend a loan", "Home"])
+            combobox.configure(values=["Home", "My pages", "Borrow a book", "Return a book","Extend a loan"])
             home()
+
         else:
             print("Invalid username or password")
     def signup():
